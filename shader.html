@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Shader</title>
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+		}
+		canvas {
+			image-rendering: pixelated;
+			width: 100vw;
+			height: 100vh;
+		}
+		#info {
+			position: absolute;
+			z-index: 100000;
+			bottom: 0;
+			right: 0;
+			background-color: white;
+			font-family: monospace;
+			margin: 8px;
+			padding: 4px;
+			opacity: 0.25;
+			transition: opacity 0.4s;
+		}
+		#info:hover {
+			opacity: 1;
+		}
+	</style>
+</head>
+<body>
+	<!-- https://github.com/actarian/glsl-canvas -->
+	<script type="text/javascript" src="https://unpkg.com/glsl-canvas-js/dist/umd/glsl-canvas.min.js"></script>
+	<canvas class="glsl-canvas" data-fragment-url="shader.glsl"></canvas>
+	<div id="info">info</div>
+	<script>
+		function resetInfo() {
+			let canvas = document.querySelector(".glsl-canvas");
+			document.querySelector("#info").innerHTML = `resolution: ${document.documentElement.scrollWidth / window.devicePixelRatio}x${document.documentElement.scrollHeight / window.devicePixelRatio}`;
+		}
+		
+		window.addEventListener("resize", () => {resetInfo();});
+	</script>
+</body>
+</html>

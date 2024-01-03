@@ -1,0 +1,72 @@
+/* aiming for skeuomorphism, and frutiger aero */
+
+html, body {
+	width: 100%;
+	font-family: "Istok Web";
+	background-color: var(--background);
+	margin: 0;
+}
+
+:root {
+	--background: green;
+	--highlight: #ffffff;
+	--shadow: #000000;
+	--accent: green;
+	a: #fb4;
+	b: #b8f;
+	c: #8f8;
+	d: #fff;
+}
+
+/* REFERENCE (for use later)
+anisotropic gradient: conic-gradient(rgba(26, 26, 26, 0.555),white,rgba(26, 26, 26, 0.555),white,rgba(26, 26, 26, 0.555));
+*/
+
+/* style */
+
+nav a {
+	font-family: "Istok Web";
+	padding: 8px;
+	border: none;
+	background: linear-gradient(180deg, var(--highlight) -50%, var(--background) 50%, var(--highlight) 150%);
+	border-radius: 4px;
+	box-shadow: 0px -1px 0px var(--highlight), 0px 1px 0px var(--shadow), 0px 4px 16px var(--shadow);
+	opacity: 0.8;
+	cursor: pointer;
+	/* width: 100%; */
+}
+
+nav a:active {
+	box-shadow: 0px 1px 0px var(--highlight), 0px -1px 0px var(--shadow), 0px 4px 16px var(--shadow);
+	filter: brightness(0.8);
+}
+
+
+
+/* layout */
+
+main {
+	display: flex;
+	flex-direction: column;
+}
+
+section {
+	height: 100vh;
+}
+
+header {
+	top: 0;
+	position: sticky;
+	display: flex;
+	background: linear-gradient(180deg, var(--highlight) -50%, var(--shadow) 150%);
+	padding: 8px;
+}
+
+nav {
+	display: flex;
+	justify-content: space-evenly;
+	gap: 8px;
+	flex-wrap: wrap;
+	flex: 1;
+	width: 100%;
+}
