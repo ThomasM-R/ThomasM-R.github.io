@@ -8,6 +8,9 @@ html {
 	background-size: cover;
 	scroll-behavior: smooth;
 	box-sizing: border-box;
+	font-size: 16px;
+	line-height: 29px;
+	overflow-x: hidden;
 }
 
 body {
@@ -23,7 +26,7 @@ body {
 	--background: url("https://msdesign.blob.core.windows.net/wallpapers/Microsoft_Nostalgic_Windows_Wallpaper_4k.jpg");
 	--highlight: #ffffff;
 	--shadow: #000000;
-	--accent: #ff5522;
+	--accent: #ffbb44;
 
 	/* the white and black window border, as stolen from windows aero: (https://upload.wikimedia.org/wikipedia/en/d/df/Aero_Example.png) */
 	--highlight-border: 0px -1px 0px var(--highlight), 0px 1px 0px var(--shadow);
@@ -46,13 +49,11 @@ anisotropic gradient: conic-gradient(rgba(26, 26, 26, 0.555),white,rgba(26, 26, 
 
 .window {
 	box-shadow: var(--highlight-border), var(--shadow) 0px 4px 16px;
-	padding: 8px;
-	border-radius: 8px;
+	padding: 16px;
+	border-radius: 16px;
 }
 
-nav a {
-	font-family: "Istok Web";
-	padding: 8px;
+.button {
 	border: none;
 	background: linear-gradient(180deg, var(--highlight) -50%, var(--main) 50%, var(--highlight) 150%);
 	border-radius: 4px;
@@ -60,19 +61,24 @@ nav a {
 	opacity: 0.8;
 	cursor: pointer;
 	color: var(--shadow) !important;
+}
+
+nav a {
+	font-family: "Istok Web";
+	padding: 4px 8px;
 	text-decoration: none;
 	font-size: 14px;
 	/* width: 100%; */
 }
 
-nav a:hover,nav a:focus {
+.button:hover,.button:focus {
 	outline: 1px solid var(--highlight);
 	outline-offset: 0px;
 	box-shadow: 0px -1px 0px var(--highlight), 0px 0px 8px var(--main);
 	filter: brightness(1.2);
 }
 
-nav a:active {
+.button:active {
 	outline: none;
 	box-shadow: 0px 1px 0px var(--highlight), 0px 4px 8px var(--shadow);
 	filter: brightness(0.8);
@@ -147,6 +153,19 @@ nav {
 	flex-wrap: wrap;
 }
 
+header input {
+	display: none;
+}
+
+header label.button {
+	display: none;
+	font-family: "Istok Web";
+	width: 32px;
+	height: 32px;
+	text-align: center;
+	align-items: center;
+}
+
 section {
 	padding: 16px 0px;
 	max-width: calc(100%);
@@ -155,7 +174,7 @@ section {
 }
 
 section#projects {
-	width: 100%;
+	width: calc(100% - 32px);
 }
 	
 	
@@ -186,12 +205,24 @@ section#projects {
 
 #projects-container .container .project {
 	transition: 0.2s;
-	width: 200px;
-	height: 200px;
-	margin-right: -100px;
-	margin-left: -100px;
+	width: 216px;
+	height: 216px;
+	margin-right: -108px;
+	margin-left: -108px;
 	cursor: pointer;
 	transform: rotateY(60deg);
+	background: #cad6ec;
+	border-radius: 50% 50% 16px 16px;
+	background-position: 54px 92px;
+	background-size: 108px;
+	background-repeat: no-repeat;
+}
+
+#projects-container .container .project div {
+	background-image: url('/img/floppy-disk.png');
+	height: 100%;
+	background-size: cover;
+	filter: drop-shadow(var(--highlight) -1px -1px 0px) drop-shadow(var(--shadow) 1px 1px 0px) drop-shadow(var(--shadow) 0px 8px 16px);
 }
 
 #projects-container .container:hover .project {
@@ -222,27 +253,23 @@ section#skills img {
 }
 
 /* sidebar if on mobile */
-/*
-@media only screen and (max-width: 501px) {
-	body {
-		flex-direction: row;
-	}
-	header {
-		flex-direction: column;
-		height: calc(100vh - 16px);
-		overflow-y: scroll;
-	}
+@media only screen and (max-width: 836px) {
 	nav {
 		flex-direction: column;
+		position: absolute;
+		right: -256px;
+		top: 40px;
+		backdrop-filter: blur(4px);
+		background-color: #ffffff44;
+		box-shadow: var(--highlight-border), var(--shadow) 0px 4px 16px;
+		padding: 8px;
+		border-radius: 12px;
+		transition: 0.2s;
 	}
-}
-*/
-
-@media only screen and (max-width: 501px) {
-	nav a {
-		font-size: 0;
+	header input:checked ~ nav {
+		right: 8px;
 	}
-	nav a:hover {
-		font-size: inherit;
+	header label.button {
+		display: block;
 	}
 }

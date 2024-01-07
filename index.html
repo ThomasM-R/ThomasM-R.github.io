@@ -15,13 +15,15 @@
 <body>
 	<header>
 		<a class="headerlogo" href="/">Thomas</a>
+		<input type="checkbox" id="sidebar-button"/>
+		<label class="button" for="sidebar-button">☰</label>
 		<nav>
-			<a class="about" href="#about">About Me</a>
-			<a class="experience" href="#experience">Work Experience</a>
-			<a class="resume" href="#resume">Resume</a>
-			<a class="projects" href="#projects">Projects</a>
-			<a class="skills" href="#skills">Skills</a>
-			<a class="contact" href="#contact">Contact</a>
+			<a class="about button" href="#about">About Me</a>
+			<a class="experience button" href="#experience">Work Experience</a>
+			<a class="resume button" href="#resume">Resume</a>
+			<a class="projects button" href="#projects">Projects</a>
+			<a class="skills button" href="#skills">Skills</a>
+			<a class="contact button" href="#contact">Contact</a>
 		</nav>
 	</header>
 	<main>
@@ -38,23 +40,31 @@
 		</section>
 		<section id="experience">
 			<div class="glass window">
-				so uh yeah i know stuff
-				computer programming and such
+				<h1>Experience</h1>
+				<p>
+					so uh yeah i know stuff
+					computer programming and such
+				</p>
 			</div>
 		</section>
 		<section id="resume">
 			opens in a new window
 			or embed?!?!?!!!
 		</section>
-		<section id="projects">
+		<section id="projects" class="glass window">
+			<h1>Projects</h1>
 			<div id="projects-container">
 				<!-- auto filled by js -->
+			</div>
+			<div class="window">
+				<h1 id="project-title"></h1><a id="project-link" href=""></a>
+				<p id="project-info">Double click a floppy disk to open the project</p>
 			</div>
 		</section>
 		<section id="skills">
 			<div class="glass window">
 				<h1>Skills</h1>
-				<p
+				<p>
 					<!-- icons from https://devicon.dev/ -->
 					<ul>
 						<li>Python<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python logo"/></li>
