@@ -18,7 +18,7 @@ fetch("projects.json")
 			location = "#projects";
 		});
 		floppy.addEventListener("dblclick", () => {
-			location = project.link;
+			window.open(project.link, "_blank");
 		});
 		projectContainer.appendChild(floppy);
 		container.appendChild(projectContainer);
