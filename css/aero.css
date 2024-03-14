@@ -7,10 +7,10 @@ html {
 	background-repeat: no-repeat;
 	background-size: cover;
 	scroll-behavior: smooth;
-	box-sizing: border-box;
 	font-size: 16px;
 	line-height: 29px;
-	overflow-x: hidden;
+	max-width: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -19,6 +19,8 @@ body {
 	width: 100%;
 	min-height: 100%;
 	margin: 0;
+	max-width: 100%;
+    overflow-x: hidden;
 }
 
 :root {
@@ -32,8 +34,18 @@ body {
 	--highlight-border: 0px -1px 0px var(--highlight), 0px 1px 0px var(--shadow);
 }
 
-:target {
+@keyframes infoflash {
+	0% {
+		background: #fff;
+	}
+	100% {
+		box-shadow: initial;
+	}
+}
+
+section:target > * {
 	scroll-margin-top: 52px;
+	animation: infoflash 0.6s ease-out;
 }
 
 /* REFERENCE
@@ -250,6 +262,12 @@ section#skills li {
 section#skills img {
 	width: 48px;
 	margin: auto;
+}
+
+iframe {
+	width: 100%;
+	border: none;
+	height: 500px;
 }
 
 /* sidebar if on mobile */
