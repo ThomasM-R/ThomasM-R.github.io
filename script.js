@@ -14,7 +14,13 @@ fetch("projects.json")
 			document.getElementById("project-info").innerText = project.desc;
 			document.getElementById("project-title").innerText = project.title;
 			document.getElementById("project-link").innerText = "Check it out!"
-			document.getElementById("project-link").href = project.link;
+			document.getElementById("project-link").addEventListener("click", ()=>{
+				if (project.link.startsWith("javascript:")) {
+					location.href = project.link;
+				} else {
+					window.open(project.link, "_blank");
+				}
+			});
 			location = "#projects";
 		});
 		floppy.addEventListener("dblclick", () => {

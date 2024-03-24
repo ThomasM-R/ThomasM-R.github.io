@@ -2,7 +2,7 @@
 	{
 		"title": "Portfolio Website",
 		"desc": "An HTML website I made for my Computer Science 2 class, that I might use as a portfolio (if you're reading this it's most likely that's true!). The page is purely HTML, CSS, and Javascript.",
-		"link": "https://ThomasM-R.github.io/",
+		"link": "javascript:alert('You\\'re looking at it right now!')",
 		"thumb": "favicon.ico"
 	}, {
 		"title": "GLSL Shader",
@@ -12,7 +12,7 @@
 	}, {
 		"title": "",
 		"desc": "I do photography sometimes (mostly of birds and cats), check out my album!",
-		"link": "data:text/plain,the album is not public yet",
+		"link": "javascript:alert('The photo album is not public yet')",
 		"thumb": "https://kodakpixpro.com/resources/cameras/astro-zoom/az901/web/images/az901-frontangled-leftgeese-lcd-out.png"
 	}, {
 		"title": "Aspine",
