@@ -7,48 +7,84 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
+const float PI = asin(1.0) * 2.0;
+const float EPSILON = 0.00001;
 
-// a distance field for the scene, with a sphere of radius 0.4 repeated infinitly using modulo
-float sceneSDF(vec3 p) {
-		return length(mod(p + 1.5, 3.) - 1.5) - 0.4;
+#define ITER clamp(float(iFrame), 3.0, 128.0)
+
+void rotate(inout vec2 p, float a) {
+    p = cos(a)*p + sin(a)*vec2(p.y, -p.x);
 }
 
-// get the normal of a surface based on the distance field
-vec3 calcNormal(in vec3 p) {
-		vec2 e = vec2(1.0, -1.0) * 0.5773 * 0.0005;
-		return normalize(
-				e.xyy * sceneSDF(p + e.xyy) +
-				e.yyx * sceneSDF(p + e.yyx) +
-				e.yxy * sceneSDF(p + e.yxy) +
-				e.xxx * sceneSDF(p + e.xxx));
+float map(vec3 p) {
+    float dist = length(mod(p, vec3(4.0)) - 2.0) - 0.2;
+    return dist;
 }
 
-const int MAX_STEPS = 256;
+struct Ray {
+    vec3 origin;
+    vec3 direction;
+    float length;
+};
+
+vec3 rgb2hsv(in vec3 c) {
+    vec4 k = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 p = mix(vec4(c.zy, k.wz), vec4(c.yz, k.xy), (c.z < c.y) ? 1.0 : 0.0);
+    vec4 q = mix(vec4(p.xyw, c.x), vec4(c.x, p.yzx), (p.x < c.x) ? 1.0 : 0.0);
+    float d = q.x - min(q.w, q.y);
+    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + EPSILON)), d / (q.x + EPSILON), q.x);
+}
+
+vec3 hsv2rgb(in vec3 c) {
+    vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0,4.0,2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
+    return c.z * mix(vec3(1.0), rgb, c.y);
+}
 
 void main() {
-		// start of raymarcher code
-		vec3 cameraPos = vec3(1.5, 1.5, -u_time * 2.0);
-		vec3 ro = vec3(0, 0, 1);													 // ray origin
+    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy ) / u_resolution.x * 1.5;
 
-		vec2 q = (gl_FragCoord.xy - .5 * u_resolution.xy ) / u_resolution.y;
-		vec3 rd = normalize(vec3(q, 0.) - ro);						 // ray direction for fragCoord.xy
-
-		// March the distance field until a surface is hit.
-		float h, t = 1.;
-		for (int i = 0; i < MAX_STEPS; i++) {
-				h = sceneSDF(ro + rd * t + cameraPos);
-				t += h;
-				// hit distance gets bigger the farther away the ray is from the camera
-				if (h < 0.01) break;
-		}
-
-		if (h < 0.01) {
-				vec3 p = ro + rd * t + cameraPos;
-				vec3 normal = calcNormal(p);
-
-				float fog = 1.0 - distance(p, cameraPos) / 32.0;
-				gl_FragColor = vec4(normal + vec3(0.5, 0.5, 0.5) * fog, 1.0);
-		} else {
-				gl_FragColor = vec4(0,0,0,1);
-		}
+    Ray ray;
+    
+    // camera animations
+    if (u_time < 3.0) ray.origin = vec3(2.0 - pow(3.0 - u_time, 3.0) * 0.1);
+    else ray.origin = vec3(2.0);
+    
+    if (u_time > 4.0) {
+        float loopedTime = mod(u_time, 2.0);
+        float speed = loopedTime < 1.0 ? pow(loopedTime, 3.0) * 2.0 : 4.0 - pow(2.0 - loopedTime, 3.0) * 2.0;
+        if (mod(u_time, 6.0) < 2.0)
+            ray.origin.x += speed;
+        else if (mod(u_time, 6.0) < 4.0)
+            ray.origin.y += speed;
+        else
+            ray.origin.z += speed;
+    }
+    
+    ray.direction = normalize(vec3(uv, 0) - vec3(0,0,1));
+    rotate(ray.direction.yz, 0.61547970867); // arcsin(1 / sqrt(3))
+    rotate(ray.direction.xz, PI * 0.25);
+    
+    ray.length = 2.0;
+    float dist = 0.0;
+    
+    for (int steps = 0; steps < int(ITER); steps++) {
+        dist = map(ray.origin + ray.direction * ray.length);
+        ray.length += dist;
+        if (dist < EPSILON) {
+            break;
+        }
+    }
+    vec3 endPos = ray.origin + ray.direction * ray.length;
+    
+    float steps_inv = 1.0 / ITER;
+    
+    vec3 color = abs(ray.direction * 2.0);
+    color = abs(endPos - ray.origin) * steps_inv;
+    color += 1.1 - length(color * ITER) * steps_inv;
+    
+    color = rgb2hsv(color);
+    color.z = 1.0;
+    color = hsv2rgb(color);
+    
+    gl_FragColor = vec4(color, 1.0);
 }
