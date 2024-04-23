@@ -10,7 +10,7 @@ uniform float u_time;
 const float PI = asin(1.0) * 2.0;
 const float EPSILON = 0.00001;
 
-#define ITER clamp(u_time * 60.0, 3.0, 128.0)
+const float ITER = 128.0;
 
 void rotate(inout vec2 p, float a) {
     p = cos(a)*p + sin(a)*vec2(p.y, -p.x);
@@ -66,15 +66,13 @@ void main() {
     
     ray.length = 2.0;
     float dist = 0.0;
-    int steps = 0;
     
-    while (steps < int(ITER)) {
+    for (int steps = 0; steps < int(ITER); steps++) {
         dist = map(ray.origin + ray.direction * ray.length);
         ray.length += dist;
         if (dist < EPSILON) {
             break;
         }
-        steps++;
     }
     vec3 endPos = ray.origin + ray.direction * ray.length;
     
