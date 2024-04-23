@@ -66,13 +66,15 @@ void main() {
     
     ray.length = 2.0;
     float dist = 0.0;
+    int steps = 0;
     
-    for (int steps = 0; steps < int(ITER); steps++) {
+    while (steps < int(ITER)) {
         dist = map(ray.origin + ray.direction * ray.length);
         ray.length += dist;
         if (dist < EPSILON) {
             break;
         }
+        steps++;
     }
     vec3 endPos = ray.origin + ray.direction * ray.length;
     
