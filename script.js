@@ -2,6 +2,7 @@
 fetch("projects.json")
 	.then(res => res.json())
 	.then(projects => {
+
 	for (let project of projects) {
 		container = document.createElement("div");
 		container.classList.add("container");
@@ -10,21 +11,17 @@ fetch("projects.json")
 		projectContainer.style.backgroundImage = "url(" + project.thumb + ")";
 		floppy = document.createElement("div");
 		floppy.title = project.title;
-		floppy.addEventListener("click", () => {
+		floppy.addEventListener("mouseover", () => {
 			document.getElementById("project-info").innerText = project.desc;
 			document.getElementById("project-title").innerText = project.title;
-			document.getElementById("project-link").innerText = "Check it out!"
-			document.getElementById("project-link").addEventListener("click", ()=>{
-				if (project.link.startsWith("javascript:")) {
-					location.href = project.link;
-				} else {
-					window.open(project.link, "_blank");
-				}
-			});
 			location = "#projects";
 		});
-		floppy.addEventListener("dblclick", () => {
-			window.open(project.link, "_blank");
+		floppy.addEventListener("click", () => {
+			if (project.link.startsWith("javascript:")) {
+				eval(project.link.replace("javascript:", ""));
+			} else {
+				window.open(project.link, "_blank");
+			}
 		});
 		projectContainer.appendChild(floppy);
 		container.appendChild(projectContainer);
